@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -37,12 +38,12 @@ public class MachineController {
     }
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
-    public ResponseEntity<Machine> save(@RequestBody Machine machine) {
+    public ResponseEntity<Machine> save(@Valid @RequestBody Machine machine) {
         return new ResponseEntity<>(machineService.save(machine), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{sourceId}", method = RequestMethod.PUT)
-    public ResponseEntity<Machine> update(@PathVariable("sourceId") Long sourceId, @RequestBody Machine machine) {
+    public ResponseEntity<Machine> update(@PathVariable("sourceId") Long sourceId, @Valid @RequestBody Machine machine) {
         return new ResponseEntity<>(machineService.update(machine, sourceId), HttpStatus.OK);
     }
 
