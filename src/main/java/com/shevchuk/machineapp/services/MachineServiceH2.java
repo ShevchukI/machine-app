@@ -9,11 +9,11 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
-public class MachineServiceImpl implements MachineService {
+public class MachineServiceH2 implements MachineService {
 
     private final MachineRepository machineRepository;
 
-    public MachineServiceImpl(MachineRepository machineRepository) {
+    public MachineServiceH2(MachineRepository machineRepository) {
         this.machineRepository = machineRepository;
     }
 

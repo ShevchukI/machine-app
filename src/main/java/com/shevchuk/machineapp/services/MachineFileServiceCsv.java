@@ -13,28 +13,31 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
-public class MachineFileServiceImpl implements MachineFileService {
+public class MachineFileServiceCsv implements MachineFileService {
 
     private final MachineService machineService;
 
-    public MachineFileServiceImpl(MachineService machineService) {
+    public MachineFileServiceCsv(MachineService machineService) {
         this.machineService = machineService;
     }
 
     @Override
-    public void saveMachineFromMultipartFile(MultipartFile file) {
-        List<Machine> machines = getMachineFromMultipartFile(file);
+    public void saveMachine(MultipartFile file) {
+        List<Machine> machines = getMachine(file);
 
-        machines.forEach(machine -> {
-            if (machine.getSourceId() != null) {
-                machineService.save(machine);
-            }
-        });
+        machines.stream()
+                .filter(machine->Objects.nonNull(machine.getSourceId()))
+                .map(machineService::save)
+                .collect(Collectors.toList());
+
     }
 
-    private List<Machine> getMachineFromMultipartFile(MultipartFile file) {
+    @Override
+    public List<Machine> getMachine(MultipartFile file) {
 
         if (file.getOriginalFilename() == null || !FilenameUtils.getExtension(file.getOriginalFilename()).equals("csv")) {
             throw new FileException("File must be in CSV format");

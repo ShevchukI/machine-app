@@ -27,7 +27,7 @@ public class MachineController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public ResponseEntity<String> uploadCsvFile(@RequestParam("file") MultipartFile file) {
-        machineFileService.saveMachineFromMultipartFile(file);
+        machineFileService.saveMachine(file);
 
         return new ResponseEntity<>("File uploaded successfully",HttpStatus.OK);
     }
